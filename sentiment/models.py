@@ -26,6 +26,10 @@ class SentimentAnalyzer(models.Model):
         return JsonResponse({
             "pos": pos_percent,
             "neg": 100 - pos_percent,
+            "last_pos_tweet": stream.pos_tweets[-1 if len(stream.pos_tweets) > 0 else None],
+            "last_neg_tweet": stream.neg_tweets[-1 if len(stream.neg_tweets) > 0 else None],
+            "pos_count": pos_count,
+            "neg_count": neg_count
         })
 
 

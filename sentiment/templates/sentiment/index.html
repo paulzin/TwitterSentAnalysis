@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
     <title>KYB INC.</title>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="/static/sentiment/main.js"></script>
 </head>
 <body>
+
 <div class="section no-pad-bot" id="index-banner">
+
     <div class="container">
         <br><br>
 
@@ -33,20 +38,38 @@
             <a id="search-button" class="btn-large waves-effect waves-light orange">Search</a>
         </div>
 
-        <br><br>
+        <br>
+
         <div class="row center">
-            <div class="col s6">
-                <h3 class="header center green-text" id="pos"></h3>
+
+            <div id="progressbar" class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col s6">
-                <h3 class="header center red-text" id="neg"></h3>
+            <div id="graph" class="card-panel hoverable"
+                 style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+            <br/>
+
+            <div id="tweet_container" class="card-panel hoverable"
+                 style="min-width: 310px; max-width: 600px; margin: 0 auto">
+                <h6 class="light truncate orange-text" id="pos-tweet"></h6>
+                <h6 class="light truncate" id="neg-tweet"></h6>
+                <h6 class="light truncate" id="pos-count"></h6>
+                <h6 class="light truncate" id="neg-count"></h6>
             </div>
         </div>
     </div>
 </div>
-
-<!--  Scripts-->
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </body>
 </html>

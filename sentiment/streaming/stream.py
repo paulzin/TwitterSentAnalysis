@@ -17,6 +17,7 @@ pos_tweets = []
 neg_tweets = []
 twitter_stream = None
 
+
 class TweetsStreamListener(StreamListener):
     def on_status(self, status):
         tweet = TextBlob(re.sub(r"http\S+", "", status.text))
@@ -49,13 +50,9 @@ def get_live_tweets(query):
             global twitter_stream
             global pos_tweets
             global neg_tweets
-            if twitter_stream is not None:
-                twitter_stream.disconnect()
-                pos_tweets = []
-                neg_tweets = []
 
             twitter_stream = Stream(auth, TweetsStreamListener())
-            twitter_stream.filter(track=query)
+            twitter_stream.filter(track=[query])
         except ProtocolError:
             print("ProtocolError: restarting stream...")
             continue
@@ -66,7 +63,7 @@ def get_live_tweets(query):
 
 def get_history(query):
     api = API(auth)
-    for status in Cursor(api.search, q=query, language='en').items(50):
+    for status in Cursor(api.search, q=[query], language='en').items(1000):
         tweet = TextBlob(re.sub(r"http\S+", "", status.text))
 
         if len(tweet) < 4:
@@ -86,4 +83,4 @@ def get_history(query):
 
 
 def start(query):
-    get_history(query)
+    get_live_tweets(query)
