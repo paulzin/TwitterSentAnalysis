@@ -15,3 +15,7 @@ def analyze(request, q):
 
 def fetch(request):
     return HttpResponse(SentimentAnalyzer.fetch())
+
+
+def stop(request):
+    return HttpResponse(SentimentAnalyzer.stop())

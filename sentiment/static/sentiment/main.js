@@ -7,9 +7,12 @@ $(document).ready(function() {
     $("#tweet_container").hide();
 
     $("#search-button").click(function() {
+        stop_fetching();
         $.get( "analyze/" + $("#query-input").val())
           .done(function( status ) {
              console.log( "Status: " + status );
+             $("#graph").hide();
+             $("#tweet_container").hide();
              $("#progressbar").show();
              start_fetching();
           });
@@ -21,6 +24,12 @@ $(document).ready(function() {
             }, 1000);
     }
 
+    function stop_fetching() {
+        $.get( "stop" ).done(function( resp ) {
+            console.log("STOPPING: " + resp);
+        });
+    }
+
     function do_fetch() {
         $.get( "fetch" )
           .done(function( json ) {
@@ -28,7 +37,6 @@ $(document).ready(function() {
              var obj = JSON.parse(json);
 
              if (obj.error != undefined) {
-                console.log("Error: empty list");
                 return;
              }
 
@@ -39,9 +47,6 @@ $(document).ready(function() {
 
              $("#pos-tweet").text(obj.last_pos_tweet);
              $("#neg-tweet").text(obj.last_neg_tweet);
-
-             $("#pos-count").text(obj.pos_count);
-             $("#neg-count").text(obj.neg_count);
 
              if (!graph_is_shown) {
                 init_graph();
@@ -92,11 +97,11 @@ $(document).ready(function() {
                 pie: {
                     allowPointSelect: true,
                     cursor: 'pointer',
-                    colors: ["#FF9800", "#424242"],
+                    colors: ["#009688", "#424242"],
                     chart: {
                        backgroundColor: null,
                        style: {
-                          fontFamily: "Dosis, sans-serif"
+                          fontFamily: "Roboto"
                        }
                     },
                     dataLabels: {
@@ -121,4 +126,9 @@ $(document).ready(function() {
             }]
         });
     }
+
+    $(window).bind('beforeunload', function() {
+        stop_fetching();
+        return 'Stop discovering new tweets about this brand?';
+    });
 });

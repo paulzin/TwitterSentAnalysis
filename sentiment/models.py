@@ -1,7 +1,7 @@
 import threading
 
 from django.db import models
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .streaming import stream
 
 
@@ -31,5 +31,10 @@ class SentimentAnalyzer(models.Model):
             "pos_count": pos_count,
             "neg_count": neg_count
         })
+
+    @staticmethod
+    def stop():
+        stream.stop()
+        return HttpResponse("OK")
 
 
